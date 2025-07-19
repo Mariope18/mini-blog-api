@@ -1,0 +1,105 @@
+## Progetto Guidato: La Mini-Blog API
+L'obiettivo è creare le API REST per un semplice blog dove gli utenti possono registrarsi, scrivere post e commentare i post degli altri.
+
+Requisiti Funzionali:
+Utenti: Un utente può registrarsi e fare il login per ottenere un token JWT.
+
+Post: Un utente autenticato può creare, leggere, modificare e cancellare solo i propri post. Tutti possono leggere i post.
+
+Commenti: Un utente autenticato può aggiungere un commento a qualsiasi post e cancellare solo i propri commenti.
+
+## La Tua Tabella di Marcia (Esercizi)
+Segui questi passaggi in ordine. Ogni passaggio è un esercizio che rinforza una parte della guida.
+
+✅ Passo 1: Le Fondamenta (Setup e Modelli Dati)
+Azione:
+
+Usa Spring Initializr per creare un nuovo progetto Maven con queste dipendenze: Spring Web, Spring Data JPA, Spring Security, Validation, e il driver del tuo database (es. H2 Database o PostgreSQL).
+
+Crea le tre classi Entità (@Entity):
+
+User: con campi come id, username, password, role.
+
+Post: con campi come id, title, content, creationDate.
+
+Comment: con campi come id, text, creationDate.
+
+Definisci le relazioni tra le entità usando le annotazioni di mapping (@ManyToOne, @OneToMany):
+
+Un User può avere molti Post (One-to-Many).
+
+Un User può avere molti Comment (One-to-Many).
+
+Un Post può avere molti Comment (One-to-Many).
+
+Concetti Praticati: Struttura del progetto, Maven, Spring Data JPA, @Entity, @Id, @ManyToOne, @OneToMany.
+
+✅ Passo 2: Gestione Utenti e Sicurezza
+Azione:
+
+Implementa tutta la logica di Spring Security con JWT per l'autenticazione. Puoi riutilizzare la configurazione che avevamo creato per Gym-Planner.
+
+Crea un AuthController con due endpoint pubblici:
+
+POST /api/auth/register per registrare un nuovo utente.
+
+POST /api/auth/login per autenticare un utente e restituire un token JWT.
+
+Concetti Praticati: Spring Security, JWT, SecurityFilterChain, PasswordEncoder, gestione dei ruoli.
+
+✅ Passo 3: Il Cuore del Blog (CRUD per i Post)
+Azione:
+
+Crea l'architettura a tre strati per i Post: PostRepository, PostService, PostController.
+
+Implementa i metodi CRUD nel PostController:
+
+GET /api/posts e GET /api/posts/{id}: per leggere tutti i post o un post singolo (pubblici).
+
+POST /api/posts: per creare un nuovo post (richiede autenticazione).
+
+PUT /api/posts/{id}: per modificare un post.
+
+DELETE /api/posts/{id}: per cancellare un post.
+
+SFIDA DI SICUREZZA: Nei metodi di modifica e cancellazione del PostService, assicurati che l'utente che fa la richiesta sia effettivamente il proprietario del post che sta cercando di modificare/cancellare.
+
+Usa i DTO (PostDto, CreatePostRequestDto) e la validazione (@Valid) per l'input della creazione dei post.
+
+Concetti Praticati: Architettura a 3 strati, @RestController, @Service, JpaRepository, DTO, @Valid e validazioni, logica di autorizzazione a livello di servizio.
+
+✅ Passo 4: L'Interazione (Aggiungere i Commenti)
+Azione:
+
+Crea la logica per aggiungere e leggere commenti.
+
+Implementa gli endpoint nel CommentController:
+
+GET /api/posts/{postId}/comments: per ottenere tutti i commenti di un post specifico.
+
+POST /api/posts/{postId}/comments: per aggiungere un nuovo commento a un post (richiede autenticazione).
+
+DELETE /api/comments/{commentId}: per cancellare un commento (l'utente deve essere il proprietario del commento).
+
+Concetti Praticati: Lavorare con le relazioni, gestire endpoint "annidati", ulteriore pratica sulla logica di autorizzazione.
+
+✅ Passo 5: La Rifinitura (Gestione Errori)
+Azione:
+
+Crea una tua eccezione personalizzata, ad esempio ResourceNotFoundException.
+
+Nel PostService, lancia questa eccezione quando si cerca di ottenere un post con un ID che non esiste.
+
+Crea una classe Global Exception Handler (@RestControllerAdvice) per gestire:
+
+La tua ResourceNotFoundException (restituendo uno status 404).
+
+La MethodArgumentNotValidException (restituendo uno status 400 con i dettagli degli errori di validazione).
+
+Concetti Praticati: Eccezioni personalizzate, @RestControllerAdvice, @ExceptionHandler, risposte di errore standardizzate.
+
+Questo progetto ti guiderà attraverso ogni singolo argomento della guida in un contesto reale e pratico.
+
+Il mio consiglio: Inizia con il primo passo. Quando hai definito le entità e le loro relazioni, puoi passare al secondo. Se hai dubbi su un passaggio o vuoi una revisione del codice, sono qui per aiutarti.
+
+Buona programmazione! 🚀
