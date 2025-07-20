@@ -1,5 +1,7 @@
 package com.example.blog.service;
 
+import com.example.blog.dto.PostRequestDto;
+import com.example.blog.dto.PostResponseDto;
 import com.example.blog.model.Post;
 import com.example.blog.model.User;
 
@@ -8,17 +10,17 @@ import java.util.Optional;
 
 public interface PostService {
 
-    List<Post> findAll();
+    List<PostResponseDto> findAll();
 
-    List<Post> findAllPostByUser(User user);
+    List<PostResponseDto> findAllPostByUser(User user);
 
-    Optional<Post> findById(Long id);
+    Optional<PostResponseDto> findById(Long id);
 
-    Optional<Post> findByIdAndUser(Long id, User user);
+    Optional<PostResponseDto> findByIdAndUser(Long id, User user);
 
-    Post createPost(Post post, User user);
+    PostResponseDto createPost(PostRequestDto requestDto, User user);
 
-    Optional<Post> updatePost(Long id, Post postNew, User user);
+    Optional<PostResponseDto> updatePost(Long id, PostRequestDto postRequestNew, User user);
 
     boolean deletePost(Long id, User user);
 }
