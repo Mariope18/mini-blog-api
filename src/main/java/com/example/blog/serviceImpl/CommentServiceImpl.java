@@ -2,6 +2,7 @@ package com.example.blog.serviceImpl;
 
 import com.example.blog.dto.CommentRequestDto;
 import com.example.blog.dto.CommentResponseDto;
+import com.example.blog.exception.ResourceNotFoundException;
 import com.example.blog.mapper.CommentMapper;
 import com.example.blog.model.Comment;
 import com.example.blog.model.Post;
@@ -35,7 +36,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentResponseDto> findAllByPostId(Long idPost) {
         Post post = postRepository.findById(idPost)
-                .orElseThrow(() -> new EntityNotFoundException("Post non trovato con id: " + idPost));
+                .orElseThrow(() -> new ResourceNotFoundException("Post non trovato con id: " + idPost));
 
         return commentRepository.findByPost(post)
                 .stream()
@@ -53,7 +54,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public CommentResponseDto createCommentByPost(Long idPost, CommentRequestDto commentRequest, User user) {
         Post post = postRepository.findById(idPost)
-                .orElseThrow(() -> new EntityNotFoundException("Post non trovato con id: " + idPost));
+                .orElseThrow(() -> new ResourceNotFoundException("Post non trovato con id: " + idPost));
 
         Comment comment = new Comment();
         comment.setText(commentRequest.text());
