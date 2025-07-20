@@ -45,4 +45,20 @@ public class Comment {
     public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
 }

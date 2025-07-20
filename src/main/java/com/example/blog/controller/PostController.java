@@ -2,7 +2,9 @@ package com.example.blog.controller;
 
 import com.example.blog.dto.PostRequestDto;
 import com.example.blog.dto.PostResponseDto;
+import com.example.blog.model.Comment;
 import com.example.blog.model.User;
+import com.example.blog.service.CommentService;
 import com.example.blog.service.PostService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,12 @@ import java.util.List;
 public class PostController {
 
     private PostService postService;
+    private CommentService commentService;
 
     @Autowired // Puoi anche omettere @Autowired qui, Spring lo capisce da solo
-    public PostController(PostService postService) {
+    public PostController(PostService postService, CommentService commentService) {
         this.postService = postService;
+        this.commentService = commentService;
     }
 
     @GetMapping
@@ -72,5 +76,17 @@ public class PostController {
         else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/{idPost}/comments")
+    public ResponseEntity<List<Comment>> findAllByPost(@PathVariable Long idPost){
+        return ResponseEntity.ok(commentService.findAllByPostId(idPost));
+    }
+
+    @PostMapping("/{idPost}/comments")
+    public ResponseEntity<Comment> createComment(@PathVariable Long idPost,
+                                                 @RequestBody Comment comment,
+                                                 @AuthenticationPrincipal User user){
+        return new ResponseEntity<>(commentService.createCommentByPost(idPost,comment,user),HttpStatus.CREATED);
     }
 }
