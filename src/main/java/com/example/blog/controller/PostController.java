@@ -2,19 +2,15 @@ package com.example.blog.controller;
 
 import com.example.blog.dto.PostRequestDto;
 import com.example.blog.dto.PostResponseDto;
-import com.example.blog.model.Post;
 import com.example.blog.model.User;
 import com.example.blog.service.PostService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/posts")
