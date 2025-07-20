@@ -14,11 +14,15 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(name = "/api/posts")
+@RequestMapping("/api/posts")
 public class PostController {
 
-    @Autowired
     private PostService postService;
+
+    @Autowired // Puoi anche omettere @Autowired qui, Spring lo capisce da solo
+    public PostController(PostService postService) {
+        this.postService = postService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Post>> findAll(){
